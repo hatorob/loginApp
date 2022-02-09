@@ -10,7 +10,8 @@
                         Crear nueva cuenta
                     </span>
     
-                    <!-- <span class="text-danger">El correo es obligatorio</span> -->
+                    <span   *ngIf=" f.submitted && f.controls['email'].errors"
+                             class="text-danger animated fadeIn">El correo es obligatorio</span>
                     <!-- el required es una propiedad de angular donde pide obligatoriamente ese campo
                         y email se esta especificando que es de tipo email
                     -->
@@ -26,7 +27,8 @@
                         <span class="focus-input100"></span>
                     </div>
 
-                    <!-- <span class="text-danger">El nombre es obligatorio</span> -->
+                    <span   *ngIf=" f.submitted && f.controls['nombre'].errors"
+                             class="text-danger animated fadeIn">El nombre es obligatorio</span>
                     <div class="wrap-input100 m-b-16">
                         <input class="input100" 
                                type="text" 
@@ -39,7 +41,8 @@
                         <span class="focus-input100"></span>
                     </div>
                     
-                    <!-- <span class="text-danger">La contraseña debe de ser más de 6 letras</span> -->
+                    <span   *ngIf=" f.submitted && f.controls['password'].errors"
+                             class="text-danger animated fadeIn">Al menos 6 caracteres</span>
                     <div class="wrap-input100 m-b-16" data-validate = "Password is required">
                         <input class="input100"
                                type="password" 

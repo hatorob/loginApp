@@ -15,9 +15,6 @@ export class RegistroComponent implements OnInit {
 
   ngOnInit() { 
     this.usuario = new UsuarioModel();
-
-    this.usuario.email = "alejotoro94@hotmail.com";
-
   }
 
   OnSubmit( form: NgForm ) {

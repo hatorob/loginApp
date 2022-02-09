@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UsuarioModel } from '../models/usuario.model';
 
+import { map } from 'rxjs/operators'
+
 // No necesito importarlo por que ya esta definido de forma global
 @Injectable({
   providedIn: 'root'
@@ -14,6 +16,8 @@ export class AuthService {
   // apikey lo sacamos de firebase en configuración del proyecto
   private apikey = 'AIzaSyCuqrRMmcKAQEIXWVWFDaaG6_aoao6mgUM';
 
+  userToken: string;
+
    // Crear nuevo usuario lo sacamos de la documetación de api firebase  
    // en este link https://firebase.google.com/docs/reference/rest/auth#section-sign-in-email-password
   /* https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[API_KEY] */
@@ -21,7 +25,9 @@ export class AuthService {
   // Iniciar seccion
   /* https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=[API_KEY] */
 
-  constructor( private http: HttpClient ) {}
+  constructor( private http: HttpClient ) {
+    this.leerToken();
+  }
 
 
   logout() {
@@ -39,8 +45,14 @@ export class AuthService {
     return this.http.post(
       `${this.url}signInWithPassword?key=${this.apikey}`,
       authData
+    ).pipe(
+      map( resp => {
+        console.log("entro en el mapa del RXJS");
+        this.guardarToken( resp['idToken'] );
+        return resp;
+      })
     );
-    
+
   }
 
   nuevoUsuario( usuario: UsuarioModel ) {
@@ -53,10 +65,31 @@ export class AuthService {
     return this.http.post(
       `${this.url}signUp?key=${this.apikey}`,
       authData
+    ).pipe(
+      map( resp => {
+        console.log("entro en el mapa del RXJS");
+        this.guardarToken( resp['idToken'] );
+        return resp;
+      })
     );
 
   }
 
+  private guardarToken( idToken: string ) {
+
+    this.userToken = idToken;
+    localStorage.setItem('token', idToken);
+  }
+
+  leerToken() {
+    if( localStorage.getItem('token') ) {
+      this.userToken = localStorage.getItem('token');
+    } else {
+      this.userToken = '';
+    }
+
+    return this.userToken;
+  }
 
 
 }

@@ -28,15 +28,24 @@ export class AuthService {
 
   }
 
-  login( usario: UsuarioModel) {
+  login( usuario: UsuarioModel) {
 
+    const authData = {
+      /* email: usuario.email,
+      password: usuario.password,  */  //puedo resumir estas propiedades que vienen de usuario con  ...usuario
+      ...usuario,
+      returnSecureToken: true
+    };
+    return this.http.post(
+      `${this.url}signInWithPassword?key=${this.apikey}`,
+      authData
+    );
+    
   }
 
   nuevoUsuario( usuario: UsuarioModel ) {
 
     const authData = {
-      /* email: usuario.email,
-      password: usuario.password,  */  //puedo resumir estas propiedades que vienen de usuario con  ...usuario
       ...usuario,
       returnSecureToken: true
     };

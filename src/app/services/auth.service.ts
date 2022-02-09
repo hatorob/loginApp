@@ -34,6 +34,18 @@ export class AuthService {
 
   nuevoUsuario( usuario: UsuarioModel ) {
 
+    const authData = {
+      /* email: usuario.email,
+      password: usuario.password,  */  //puedo resumir estas propiedades que vienen de usuario con  ...usuario
+      ...usuario,
+      returnSecureToken: true
+    };
+
+    return this.http.post(
+      `${this.url}signUp?key=${this.apikey}`,
+      authData
+    );
+
   }
 
 
